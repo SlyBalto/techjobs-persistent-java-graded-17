@@ -6,5 +6,4 @@ import org.launchcode.techjobs.persistent.models.Skill;
 
 @Repository
 public interface SkillRepository extends CrudRepository<Skill, Integer> {
-    // You can add custom query methods here if needed
 }

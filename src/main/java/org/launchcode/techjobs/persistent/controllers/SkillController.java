@@ -18,10 +18,10 @@ public class SkillController {
     @Autowired
     private SkillRepository skillRepository;
 
-    @GetMapping("add")
+    @GetMapping("/add")
     public String displayAddSkillForm(Model model) {
-        model.addAttribute(new Skill());
-        return "skills";
+        model.addAttribute("skill", new Skill());
+        return "skills/add";
     }
 
 
@@ -31,10 +31,10 @@ public class SkillController {
     public String index(Model model) {
         Iterable<Skill> skills = skillRepository.findAll();
         model.addAttribute("skills", skills);
-        return "skills/index";
+        return "index";
     }
 
-    @PostMapping("/skills/add")
+    @PostMapping("/add")
     public String processAddSkillForm(@ModelAttribute @Valid Skill newSkill, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
 //            jumps right back up to the start of this method instead of continuing to save and return to /skills
@@ -44,26 +44,13 @@ public class SkillController {
         // Save the valid skill object to the database
         skillRepository.save(newSkill);
 
-        return "redirect:/skills"; // Redirect to the skills list after successful save
+        return "redirect:"; // Redirect to the skills list after successful save
+        // set as return "redirect:/add" if you want to go straight to the add jobs page
     }
 
-// old one for comparision
-//     @GetMapping("view/{skillId}")
-//    public String displayViewSkill(Model model, @PathVariable int skillId) {
-//
-//        Optional optSkill = null;
-//        if (optSkill.isPresent()) {
-//            Skill skill = (Skill) optSkill.get();
-//            model.addAttribute("skill", skill);
-//            return "skills/view";
-//        } else {
-//            return "redirect:../";
-//        }
-//
-//    }
-//}
 
-    @GetMapping("/skills/view/{skillId}")
+//    views skill list after adding one.
+    @GetMapping("/view/{skillId}")
     public String displayViewSkill(Model model, @PathVariable int skillId) {
         Optional<Skill> optSkill = skillRepository.findById(skillId);
 
@@ -72,7 +59,7 @@ public class SkillController {
             model.addAttribute("skill", skill);
             return "skills/view";
         } else {
-            return "redirect:/skills"; // Handle the case where the skill with the provided ID does not exist
+            return "redirect:/skills/list"; // sends user to the view that lists all views.
         }
     }
 }

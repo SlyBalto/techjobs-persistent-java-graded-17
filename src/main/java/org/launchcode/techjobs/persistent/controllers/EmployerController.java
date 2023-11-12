@@ -30,6 +30,7 @@ public class EmployerController {
 //    wanted to set as "/list" instead of just "/"
     @GetMapping("/list")
     public String index(Model model) {
+//        gets all employer entries we have and displays them
         Iterable<Employer> employers = employerRepository.findAll();
         model.addAttribute("employers", employers);
         return "employers/index";
@@ -49,21 +50,6 @@ public class EmployerController {
         // set as return "redirect:/add" if you want to go straight to the add jobs page
     }
 
-// old one for comparision
-//     @GetMapping("view/{employerId}")
-//    public String displayViewEmployer(Model model, @PathVariable int employerId) {
-//
-//        Optional optEmployer = null;
-//        if (optEmployer.isPresent()) {
-//            Employer employer = (Employer) optEmployer.get();
-//            model.addAttribute("employer", employer);
-//            return "employers/view";
-//        } else {
-//            return "redirect:../";
-//        }
-//
-//    }
-//}
 
     @GetMapping("/view/{employerId}")
     public String displayViewEmployer(Model model, @PathVariable int employerId) {
